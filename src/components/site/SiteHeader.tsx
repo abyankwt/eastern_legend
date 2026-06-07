@@ -1,15 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import logo from "@/assets/eastern-legend-logo.png.asset.json";
 
 const NAV = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
-  { to: "/services", label: "Services" },
+  { to: "/services/", label: "Services" },
   { to: "/quality-safety", label: "Quality & Safety" },
   { to: "/clients", label: "Clients" },
   { to: "/projects", label: "Projects" },
+  { to: "/blog/", label: "Blog" },
   { to: "/contact", label: "Contact" },
 ] as const;
 
@@ -27,36 +27,18 @@ export function SiteHeader() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled || open
-          ? "bg-surface/95 shadow-card backdrop-blur-md"
-          : "bg-transparent"
+        scrolled || open ? "bg-surface/95 shadow-card backdrop-blur-md" : "bg-transparent"
       }`}
     >
       <div className="container-page flex h-20 items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 group">
+        <Link to="/" className="group flex items-center">
           <img
-            src={logo.url}
+            src="/logo.png"
             alt="Eastern Legend"
-            width={48}
-            height={48}
-            className="h-11 w-11 object-contain"
+            width={72}
+            height={72}
+            className="h-16 w-16 rounded-md bg-white object-contain p-1 shadow-sm"
           />
-          <div className="flex flex-col leading-tight">
-            <span
-              className={`font-display text-sm font-bold tracking-tight md:text-base ${
-                scrolled || open ? "text-primary" : "text-white"
-              }`}
-            >
-              EASTERN LEGEND
-            </span>
-            <span
-              className={`text-[10px] font-medium uppercase tracking-[0.18em] ${
-                scrolled || open ? "text-secondary" : "text-white/70"
-              }`}
-            >
-              Building Construction Co. W.L.L.
-            </span>
-          </div>
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">
@@ -65,9 +47,7 @@ export function SiteHeader() {
               key={n.to}
               to={n.to}
               className={`text-sm font-medium transition-colors ${
-                scrolled
-                  ? "text-foreground hover:text-accent"
-                  : "text-white/90 hover:text-white"
+                scrolled ? "text-foreground hover:text-accent" : "text-white/90 hover:text-white"
               }`}
               activeProps={{
                 className: scrolled ? "!text-accent" : "!text-white font-semibold",

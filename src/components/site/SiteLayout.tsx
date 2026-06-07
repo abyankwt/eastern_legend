@@ -26,17 +26,36 @@ export function PageHero({
   subtitle: string;
 }) {
   return (
-    <section className="relative overflow-hidden bg-primary pt-32 pb-20 text-white md:pt-40 md:pb-24">
-      <div className="absolute inset-0 blueprint-grid opacity-40" aria-hidden />
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-primary-dark/40 to-transparent" aria-hidden />
+    <section className="relative overflow-hidden bg-primary-dark pt-36 pb-24 text-white md:pt-48 md:pb-32">
+      {/* Blueprint grid */}
+      <div className="absolute inset-0 blueprint-grid opacity-25" aria-hidden />
+      {/* Right diagonal accent panel */}
+      <div
+        className="absolute right-0 top-0 h-full w-1/3 -skew-x-6 bg-accent/5 origin-top-right"
+        aria-hidden
+      />
+      {/* Bottom accent line */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent"
+        aria-hidden
+      />
+      {/* Subtle vignette */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-primary-dark/60 to-transparent"
+        aria-hidden
+      />
+
       <div className="container-page relative">
-        <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-accent">
-          <span className="h-px w-8 bg-accent" /> {eyebrow}
+        <div className="flex items-center gap-3">
+          <span className="h-px w-10 bg-accent" aria-hidden />
+          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+            {eyebrow}
+          </span>
         </div>
-        <h1 className="mt-5 max-w-4xl text-4xl font-bold leading-tight !text-white md:text-5xl lg:text-6xl">
+        <h1 className="mt-6 max-w-4xl text-4xl font-bold leading-[1.1] !text-white text-balance md:text-5xl lg:text-[3.5rem]">
           {title}
         </h1>
-        <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/75 md:text-lg">
+        <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">
           {subtitle}
         </p>
       </div>

@@ -44,9 +44,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight">
-          This page didn't load
-        </h1>
+        <h1 className="text-xl font-semibold tracking-tight">This page didn't load</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Something went wrong on our end. You can try refreshing or head back home.
         </p>
@@ -77,8 +75,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Eastern Legend Building Construction Co. W.L.L. | Construction & Contracting Company in Kuwait" },
-      { name: "description", content: "Kuwait-based construction and contracting company providing building construction, MEP contracting, fit-out, blasting and painting, site office facilities, rental services, project management, and technical consulting." },
+      {
+        title:
+          "Eastern Legend Building Construction Co. W.L.L. | Construction & Contracting Company in Kuwait",
+      },
+      {
+        name: "description",
+        content:
+          "Kuwait-based construction and contracting company providing building construction, MEP contracting, fit-out, blasting and painting, site office facilities, rental services, project management, and technical consulting.",
+      },
       { name: "author", content: "Eastern Legend Building Construction Co. W.L.L." },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Eastern Legend Building Construction Co. W.L.L." },
@@ -86,6 +91,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "shortcut icon", href: "/favicon.ico" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -98,18 +105,92 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "GeneralContractor",
-          name: "Eastern Legend Building Construction Co. W.L.L.",
-          url: "https://www.easternlegendkw.com",
-          email: "info@easternlegendkw.com",
-          telephone: "+96565646413",
-          areaServed: "KW",
-          address: {
-            "@type": "PostalAddress",
-            streetAddress: "Block 11, Mekka Street, Building 6659, Floor 1, Office No. 4",
-            addressLocality: "Fahaheel",
-            addressCountry: "KW",
-          },
+          "@graph": [
+            {
+              "@type": ["Organization", "GeneralContractor", "LocalBusiness"],
+              "@id": "https://www.easternlegendkw.com/#organization",
+              name: "Eastern Legend Building Construction Co. W.L.L.",
+              legalName: "Eastern Legend Building Construction Co. W.L.L.",
+              url: "https://www.easternlegendkw.com",
+              email: "info@easternlegendkw.com",
+              telephone: ["+96566935287", "+96565646413"],
+              sameAs: [],
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Block 11, Mekka Street, Building 6659, Floor 1, Office No. 4",
+                addressLocality: "Fahaheel",
+                addressRegion: "Ahmadi",
+                addressCountry: "KW",
+              },
+              areaServed: [
+                { "@type": "City", name: "Fahaheel" },
+                { "@type": "City", name: "Ahmadi" },
+                { "@type": "City", name: "Kuwait City" },
+                { "@type": "City", name: "Hawally" },
+                { "@type": "City", name: "Farwaniya" },
+                { "@type": "City", name: "Mubarak Al-Kabeer" },
+                { "@type": "City", name: "Jahra" },
+                { "@type": "Country", name: "Kuwait" },
+              ],
+              openingHoursSpecification: [
+                {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
+                  opens: "08:00",
+                  closes: "17:00",
+                },
+              ],
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                name: "Construction & Contracting Services",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "General Contracting" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Building Contracting" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "MEP Contracting" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "MEP Fit-out & Interior Design" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Blasting & Painting" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Site Office Facilities" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Rental Services" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Project Management" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Design-Build Services" },
+                  },
+                ],
+              },
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.easternlegendkw.com/#website",
+              url: "https://www.easternlegendkw.com",
+              name: "Eastern Legend Building Construction Co. W.L.L.",
+              publisher: { "@id": "https://www.easternlegendkw.com/#organization" },
+            },
+          ],
         }),
       },
     ],

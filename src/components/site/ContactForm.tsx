@@ -49,34 +49,67 @@ export function ContactForm() {
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="grid gap-4 md:grid-cols-2">
         <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">Name</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Name
+          </label>
           <input name="name" type="text" required className={input} placeholder="Your full name" />
         </div>
         <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">Company</label>
-          <input name="company" type="text" className={input} placeholder="Company name (optional)" />
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Company
+          </label>
+          <input
+            name="company"
+            type="text"
+            className={input}
+            placeholder="Company name (optional)"
+          />
         </div>
         <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">Phone</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Phone
+          </label>
           <input name="phone" type="tel" required className={input} placeholder="+965 ..." />
         </div>
         <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email</label>
-          <input name="email" type="email" required className={input} placeholder="you@company.com" />
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Email
+          </label>
+          <input
+            name="email"
+            type="email"
+            required
+            className={input}
+            placeholder="you@company.com"
+          />
         </div>
       </div>
       <div>
-        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">Service Required</label>
+        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Service Required
+        </label>
         <select name="service" className={input} defaultValue="">
-          <option value="" disabled>Select a service</option>
+          <option value="" disabled>
+            Select a service
+          </option>
           {SERVICES.map((s) => (
-            <option key={s} value={s}>{s}</option>
+            <option key={s} value={s}>
+              {s}
+            </option>
           ))}
         </select>
       </div>
       <div>
-        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">Project Details</label>
-        <textarea name="details" required rows={5} className={input} placeholder="Tell us about your project, location, timeline, and scope..." />
+        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Project Details
+        </label>
+        <textarea
+          name="details"
+          required
+          rows={5}
+          className={input}
+          placeholder="Tell us about your project, location, timeline, and scope..."
+        />
       </div>
       <button
         type="submit"

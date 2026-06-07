@@ -37,7 +37,8 @@
   --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
-  --shadow-card: 0 1px 2px 0 oklch(0.32 0.09 248 / 0.04), 0 8px 24px -8px oklch(0.32 0.09 248 / 0.08);
+  --shadow-card:
+    0 1px 2px 0 oklch(0.32 0.09 248 / 0.04), 0 8px 24px -8px oklch(0.32 0.09 248 / 0.08);
   --shadow-elevated: 0 12px 40px -12px oklch(0.32 0.09 248 / 0.25);
 }
 
@@ -94,7 +95,11 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
-  h1, h2, h3, h4, h5 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
     color: var(--color-primary);
@@ -110,7 +115,10 @@
     padding-right: 1.25rem;
   }
   @media (min-width: 768px) {
-    .container-page { padding-left: 2rem; padding-right: 2rem; }
+    .container-page {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
   }
   .blueprint-grid {
     background-image:
@@ -125,13 +133,61 @@
     background-size: 40px 40px;
   }
   .gradient-hero {
-    background: linear-gradient(135deg, oklch(0.24 0.065 250 / 0.92) 0%, oklch(0.34 0.085 248 / 0.78) 60%, oklch(0.5 0.075 230 / 0.6) 100%);
+    background: linear-gradient(
+      112deg,
+      oklch(0.22 0.065 250 / 0.93) 0%,
+      oklch(0.3 0.085 248 / 0.78) 38%,
+      oklch(0.45 0.075 235 / 0.42) 68%,
+      oklch(0.5 0.075 230 / 0.1) 100%
+    );
   }
-  .text-balance { text-wrap: balance; }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  @keyframes wa-ring {
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+  @keyframes wa-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+  .wa-ring {
+    animation: wa-ring 2.5s ease-out infinite;
+  }
+  .wa-ring-delay {
+    animation: wa-ring 2.5s ease-out 1.2s infinite;
+  }
+  .wa-float {
+    animation: wa-float 3s ease-in-out infinite;
+  }
   .reveal {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    transition:
+      opacity 0.7s ease-out,
+      transform 0.7s ease-out;
   }
   .reveal.in-view {
     opacity: 1;

@@ -87,7 +87,36 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "Eastern Legend Building Construction Co. W.L.L." },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Eastern Legend Building Construction Co. W.L.L." },
+      {
+        property: "og:title",
+        content:
+          "Eastern Legend Building Construction Co. W.L.L. | Construction & Contracting Company in Kuwait",
+      },
+      {
+        property: "og:description",
+        content:
+          "Kuwait-based construction and contracting company providing building construction, MEP contracting, fit-out, blasting and painting, site office facilities, rental services, project management, and technical consulting.",
+      },
+      { property: "og:url", content: "https://www.easternlegendkw.com" },
+      { property: "og:image", content: "https://www.easternlegendkw.com/og-image.jpg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      {
+        property: "og:image:alt",
+        content: "Eastern Legend Building Construction Co. W.L.L. — Kuwait",
+      },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:title",
+        content:
+          "Eastern Legend Building Construction Co. W.L.L. | Construction & Contracting Company in Kuwait",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Kuwait-based construction and contracting company providing building construction, MEP contracting, fit-out, blasting and painting, and more.",
+      },
+      { name: "twitter:image", content: "https://www.easternlegendkw.com/og-image.jpg" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

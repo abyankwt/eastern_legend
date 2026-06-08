@@ -252,6 +252,59 @@ function WaIcon({ className = "h-4 w-4" }: { className?: string }) {
   );
 }
 
+function LogoMarquee() {
+  return (
+    <div className="absolute inset-x-0 bottom-0 border-t border-white/10 bg-primary-dark/70 py-5 backdrop-blur-md">
+      <div className="flex items-center gap-0">
+        {/* Label */}
+        <div className="hidden shrink-0 items-center gap-3 px-8 md:flex">
+          <span className="h-px w-8 bg-accent" />
+          <p className="whitespace-nowrap text-[9px] font-bold uppercase tracking-[0.28em] text-white/45">
+            Trusted by
+          </p>
+          <div className="h-6 w-px bg-white/15" />
+        </div>
+
+        {/* Scrolling track with CSS mask fade on both edges */}
+        <div
+          className="min-w-0 flex-1 overflow-hidden"
+          style={{
+            maskImage: "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+          }}
+        >
+          <div className="flex w-max animate-marquee items-center gap-6 hover:[animation-play-state:paused]">
+            {[...CLIENTS, ...CLIENTS].map((c, i) => (
+              <MarqueeItem key={i} name={c.name} abbr={c.abbr} logo={c.logo} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MarqueeItem({ name, abbr, logo }: { name: string; abbr: string; logo: string }) {
+  const [imgOk, setImgOk] = useState(true);
+  return (
+    <div className="flex shrink-0 flex-col items-center gap-2">
+      <div className="flex h-14 w-36 items-center justify-center rounded-xl border border-white/10 bg-white px-4 py-2 shadow-lg transition-transform duration-300 hover:scale-105">
+        {imgOk ? (
+          <img
+            src={logo}
+            alt={name}
+            className="max-h-10 max-w-full object-contain"
+            onError={() => setImgOk(false)}
+          />
+        ) : (
+          <span className="text-xs font-bold text-primary">{abbr}</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function ClientCard({
   name,
   abbr,
@@ -266,12 +319,12 @@ function ClientCard({
   const [imgOk, setImgOk] = useState(true);
   return (
     <div className="group flex flex-col items-center justify-center gap-2 bg-surface px-4 py-8 text-center transition-colors hover:bg-muted">
-      <div className="flex h-12 w-full items-center justify-center">
+      <div className="flex h-16 w-full items-center justify-center">
         {imgOk ? (
           <img
             src={logo}
             alt={name}
-            className="max-h-10 max-w-[80%] object-contain opacity-70 grayscale transition group-hover:opacity-100 group-hover:grayscale-0"
+            className="max-h-14 max-w-[85%] object-contain opacity-75 transition duration-300 group-hover:opacity-100"
             onError={() => setImgOk(false)}
           />
         ) : (
@@ -349,6 +402,9 @@ function HomePage() {
             </div>
           </div>
         </div>
+
+        {/* Logo marquee anchored to the bottom of the hero */}
+        <LogoMarquee />
       </section>
 
       {/* ── STATS STRIP ── */}

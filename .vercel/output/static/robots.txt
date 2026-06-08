@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /_build/
+Disallow: /__manifest/
+
+# Low-value pages
+Crawl-delay: 1
+
+# Sitemap
+Sitemap: https://www.easternlegendkw.com/sitemap.xml

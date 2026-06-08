@@ -12,8 +12,8 @@ export default defineConfig({
     // nitro/vite builds from this
     server: {
       entry: "server",
-      // Set NITRO_PRESET=vercel in Vercel environment variables to enable Vercel deployment
-      preset: process.env.NITRO_PRESET ?? "cloudflare-pages",
+      // Auto-detect Vercel (VERCEL=1 is always set in their build environment)
+      preset: process.env.VERCEL ? "vercel" : (process.env.NITRO_PRESET ?? "cloudflare-pages"),
     },
   },
 });

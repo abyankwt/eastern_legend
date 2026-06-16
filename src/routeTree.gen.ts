@@ -19,9 +19,13 @@ import { Route as ClientsRouteImport } from './routes/clients'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
-import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as ServicesSlugRouteImport } from './routes/services/$slug'
-import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminLayoutRouteImport } from './routes/admin/_layout'
+import { Route as AdminLayoutIndexRouteImport } from './routes/admin/_layout/index'
+import { Route as AdminLayoutProjectsIndexRouteImport } from './routes/admin/_layout/projects/index'
+import { Route as AdminLayoutProjectsNewRouteImport } from './routes/admin/_layout/projects/new'
+import { Route as AdminLayoutProjectsIdRouteImport } from './routes/admin/_layout/projects/$id'
 
 const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
   id: '/terms-and-conditions',
@@ -73,20 +77,41 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ServicesRoute,
 } as any)
-const BlogIndexRoute = BlogIndexRouteImport.update({
-  id: '/blog/',
-  path: '/blog/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ServicesSlugRoute = ServicesSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
 } as any)
-const BlogSlugRoute = BlogSlugRouteImport.update({
-  id: '/blog/$slug',
-  path: '/blog/$slug',
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLayoutRoute = AdminLayoutRouteImport.update({
+  id: '/admin/_layout',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLayoutIndexRoute = AdminLayoutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminLayoutRoute,
+} as any)
+const AdminLayoutProjectsIndexRoute =
+  AdminLayoutProjectsIndexRouteImport.update({
+    id: '/projects/',
+    path: '/projects/',
+    getParentRoute: () => AdminLayoutRoute,
+  } as any)
+const AdminLayoutProjectsNewRoute = AdminLayoutProjectsNewRouteImport.update({
+  id: '/projects/new',
+  path: '/projects/new',
+  getParentRoute: () => AdminLayoutRoute,
+} as any)
+const AdminLayoutProjectsIdRoute = AdminLayoutProjectsIdRouteImport.update({
+  id: '/projects/$id',
+  path: '/projects/$id',
+  getParentRoute: () => AdminLayoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -99,10 +124,14 @@ export interface FileRoutesByFullPath {
   '/quality-safety': typeof QualitySafetyRoute
   '/services': typeof ServicesRouteWithChildren
   '/terms-and-conditions': typeof TermsAndConditionsRoute
-  '/blog/$slug': typeof BlogSlugRoute
+  '/admin': typeof AdminLayoutRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
   '/services/$slug': typeof ServicesSlugRoute
-  '/blog/': typeof BlogIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/admin/': typeof AdminLayoutIndexRoute
+  '/admin/projects/$id': typeof AdminLayoutProjectsIdRoute
+  '/admin/projects/new': typeof AdminLayoutProjectsNewRoute
+  '/admin/projects/': typeof AdminLayoutProjectsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -113,10 +142,13 @@ export interface FileRoutesByTo {
   '/projects': typeof ProjectsRoute
   '/quality-safety': typeof QualitySafetyRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
-  '/blog/$slug': typeof BlogSlugRoute
+  '/admin/login': typeof AdminLoginRoute
   '/services/$slug': typeof ServicesSlugRoute
-  '/blog': typeof BlogIndexRoute
   '/services': typeof ServicesIndexRoute
+  '/admin': typeof AdminLayoutIndexRoute
+  '/admin/projects/$id': typeof AdminLayoutProjectsIdRoute
+  '/admin/projects/new': typeof AdminLayoutProjectsNewRoute
+  '/admin/projects': typeof AdminLayoutProjectsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -129,10 +161,14 @@ export interface FileRoutesById {
   '/quality-safety': typeof QualitySafetyRoute
   '/services': typeof ServicesRouteWithChildren
   '/terms-and-conditions': typeof TermsAndConditionsRoute
-  '/blog/$slug': typeof BlogSlugRoute
+  '/admin/_layout': typeof AdminLayoutRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
   '/services/$slug': typeof ServicesSlugRoute
-  '/blog/': typeof BlogIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/admin/_layout/': typeof AdminLayoutIndexRoute
+  '/admin/_layout/projects/$id': typeof AdminLayoutProjectsIdRoute
+  '/admin/_layout/projects/new': typeof AdminLayoutProjectsNewRoute
+  '/admin/_layout/projects/': typeof AdminLayoutProjectsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -146,10 +182,14 @@ export interface FileRouteTypes {
     | '/quality-safety'
     | '/services'
     | '/terms-and-conditions'
-    | '/blog/$slug'
+    | '/admin'
+    | '/admin/login'
     | '/services/$slug'
-    | '/blog/'
     | '/services/'
+    | '/admin/'
+    | '/admin/projects/$id'
+    | '/admin/projects/new'
+    | '/admin/projects/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -160,10 +200,13 @@ export interface FileRouteTypes {
     | '/projects'
     | '/quality-safety'
     | '/terms-and-conditions'
-    | '/blog/$slug'
+    | '/admin/login'
     | '/services/$slug'
-    | '/blog'
     | '/services'
+    | '/admin'
+    | '/admin/projects/$id'
+    | '/admin/projects/new'
+    | '/admin/projects'
   id:
     | '__root__'
     | '/'
@@ -175,10 +218,14 @@ export interface FileRouteTypes {
     | '/quality-safety'
     | '/services'
     | '/terms-and-conditions'
-    | '/blog/$slug'
+    | '/admin/_layout'
+    | '/admin/login'
     | '/services/$slug'
-    | '/blog/'
     | '/services/'
+    | '/admin/_layout/'
+    | '/admin/_layout/projects/$id'
+    | '/admin/_layout/projects/new'
+    | '/admin/_layout/projects/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -191,8 +238,8 @@ export interface RootRouteChildren {
   QualitySafetyRoute: typeof QualitySafetyRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
-  BlogSlugRoute: typeof BlogSlugRoute
-  BlogIndexRoute: typeof BlogIndexRoute
+  AdminLayoutRoute: typeof AdminLayoutRouteWithChildren
+  AdminLoginRoute: typeof AdminLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -267,13 +314,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof ServicesRoute
     }
-    '/blog/': {
-      id: '/blog/'
-      path: '/blog'
-      fullPath: '/blog/'
-      preLoaderRoute: typeof BlogIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/services/$slug': {
       id: '/services/$slug'
       path: '/$slug'
@@ -281,12 +321,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
     }
-    '/blog/$slug': {
-      id: '/blog/$slug'
-      path: '/blog/$slug'
-      fullPath: '/blog/$slug'
-      preLoaderRoute: typeof BlogSlugRouteImport
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/_layout': {
+      id: '/admin/_layout'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/_layout/': {
+      id: '/admin/_layout/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminLayoutIndexRouteImport
+      parentRoute: typeof AdminLayoutRoute
+    }
+    '/admin/_layout/projects/': {
+      id: '/admin/_layout/projects/'
+      path: '/projects'
+      fullPath: '/admin/projects/'
+      preLoaderRoute: typeof AdminLayoutProjectsIndexRouteImport
+      parentRoute: typeof AdminLayoutRoute
+    }
+    '/admin/_layout/projects/new': {
+      id: '/admin/_layout/projects/new'
+      path: '/projects/new'
+      fullPath: '/admin/projects/new'
+      preLoaderRoute: typeof AdminLayoutProjectsNewRouteImport
+      parentRoute: typeof AdminLayoutRoute
+    }
+    '/admin/_layout/projects/$id': {
+      id: '/admin/_layout/projects/$id'
+      path: '/projects/$id'
+      fullPath: '/admin/projects/$id'
+      preLoaderRoute: typeof AdminLayoutProjectsIdRouteImport
+      parentRoute: typeof AdminLayoutRoute
     }
   }
 }
@@ -305,6 +380,24 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
   ServicesRouteChildren,
 )
 
+interface AdminLayoutRouteChildren {
+  AdminLayoutIndexRoute: typeof AdminLayoutIndexRoute
+  AdminLayoutProjectsIdRoute: typeof AdminLayoutProjectsIdRoute
+  AdminLayoutProjectsNewRoute: typeof AdminLayoutProjectsNewRoute
+  AdminLayoutProjectsIndexRoute: typeof AdminLayoutProjectsIndexRoute
+}
+
+const AdminLayoutRouteChildren: AdminLayoutRouteChildren = {
+  AdminLayoutIndexRoute: AdminLayoutIndexRoute,
+  AdminLayoutProjectsIdRoute: AdminLayoutProjectsIdRoute,
+  AdminLayoutProjectsNewRoute: AdminLayoutProjectsNewRoute,
+  AdminLayoutProjectsIndexRoute: AdminLayoutProjectsIndexRoute,
+}
+
+const AdminLayoutRouteWithChildren = AdminLayoutRoute._addFileChildren(
+  AdminLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -315,8 +408,8 @@ const rootRouteChildren: RootRouteChildren = {
   QualitySafetyRoute: QualitySafetyRoute,
   ServicesRoute: ServicesRouteWithChildren,
   TermsAndConditionsRoute: TermsAndConditionsRoute,
-  BlogSlugRoute: BlogSlugRoute,
-  BlogIndexRoute: BlogIndexRoute,
+  AdminLayoutRoute: AdminLayoutRouteWithChildren,
+  AdminLoginRoute: AdminLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -38,8 +38,10 @@ import projInd from "@/assets/proj-industrial.jpg";
 import projMep from "@/assets/proj-mep.jpg";
 import projFit from "@/assets/proj-fitout.jpg";
 import projSite from "@/assets/proj-site.jpg";
+import { fetchFeaturedProjectsFn, type SanityProject } from "@/lib/sanity.server";
 
 export const Route = createFileRoute("/")({
+  loader: () => fetchFeaturedProjectsFn(),
   head: () => ({
     meta: [
       {
@@ -340,7 +342,17 @@ function ClientCard({
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
+const FALLBACK_IMG: Record<string, string> = {
+  Residential: projRes,
+  Commercial: projCom,
+  Industrial: projInd,
+  MEP: projMep,
+  "Fit-out": projFit,
+  "Site Facilities": projSite,
+};
+
 function HomePage() {
+  const featuredProjects = Route.useLoaderData() as SanityProject[];
   return (
     <SiteLayout>
       {/* ── HERO ── */}
@@ -649,32 +661,59 @@ function HomePage() {
             />
           </Reveal>
           <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {PROJECTS.map((p, i) => (
-              <Reveal key={p.title} delay={i * 60}>
-                <article className="group overflow-hidden rounded-xl bg-surface shadow-card transition-all hover:-translate-y-1 hover:shadow-elevated">
-                  <div className="relative aspect-4/3 overflow-hidden">
-                    <img
-                      src={p.img}
-                      alt={p.title}
-                      width={1024}
-                      height={768}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-primary/85 via-primary/15 to-transparent" />
-                    <div className="absolute bottom-4 left-4">
-                      <span className="inline-block rounded bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
-                        {p.cat}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-lg font-semibold">{p.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
-                  </div>
-                </article>
-              </Reveal>
-            ))}
+            {featuredProjects.length > 0
+              ? featuredProjects.map((p, i) => (
+                  <Reveal key={p._id} delay={i * 60}>
+                    <article className="group overflow-hidden rounded-xl bg-surface shadow-card transition-all hover:-translate-y-1 hover:shadow-elevated">
+                      <div className="relative aspect-4/3 overflow-hidden">
+                        <img
+                          src={p.imageUrl ?? FALLBACK_IMG[p.category] ?? projRes}
+                          alt={p.title}
+                          width={1024}
+                          height={768}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-linear-to-t from-primary/85 via-primary/15 to-transparent" />
+                        <div className="absolute bottom-4 left-4">
+                          <span className="inline-block rounded bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
+                            {p.category}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-lg font-semibold">{p.title}</h3>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.description}</p>
+                      </div>
+                    </article>
+                  </Reveal>
+                ))
+              : PROJECTS.map((p, i) => (
+                  <Reveal key={p.title} delay={i * 60}>
+                    <article className="group overflow-hidden rounded-xl bg-surface shadow-card transition-all hover:-translate-y-1 hover:shadow-elevated">
+                      <div className="relative aspect-4/3 overflow-hidden">
+                        <img
+                          src={p.img}
+                          alt={p.title}
+                          width={1024}
+                          height={768}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-linear-to-t from-primary/85 via-primary/15 to-transparent" />
+                        <div className="absolute bottom-4 left-4">
+                          <span className="inline-block rounded bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
+                            {p.cat}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-lg font-semibold">{p.title}</h3>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
+                      </div>
+                    </article>
+                  </Reveal>
+                ))}
           </div>
           <Reveal>
             <div className="mt-10 text-center">
@@ -834,7 +873,7 @@ function HomePage() {
             <div className="mt-8 overflow-hidden rounded-xl border border-border">
               <iframe
                 title="Eastern Legend office location"
-                src="https://www.google.com/maps?q=Fahaheel,+Kuwait&output=embed"
+                src="https://www.google.com/maps?q=29.080019654369558,48.1349583642129&output=embed"
                 width="100%"
                 height="260"
                 loading="lazy"

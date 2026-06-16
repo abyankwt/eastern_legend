@@ -8,7 +8,6 @@ const QUICK = [
   { to: "/quality-safety", label: "Quality & Safety" },
   { to: "/clients", label: "Our Clients" },
   { to: "/projects", label: "Projects" },
-  { to: "/blog/", label: "Blog" },
   { to: "/contact", label: "Contact" },
 ] as const;
 

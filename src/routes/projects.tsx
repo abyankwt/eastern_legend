@@ -3,12 +3,24 @@ import { useMemo, useState } from "react";
 import { SiteLayout, PageHero } from "@/components/site/SiteLayout";
 import { Reveal } from "@/components/site/Reveal";
 import { ArrowRight } from "lucide-react";
+import { fetchProjectsFn, type SanityProject } from "@/lib/sanity.server";
+
+// Category fallback images (shown when a project has no uploaded image yet)
 import projRes from "@/assets/proj-residential.jpg";
 import projCom from "@/assets/proj-commercial.jpg";
 import projInd from "@/assets/proj-industrial.jpg";
 import projMep from "@/assets/proj-mep.jpg";
 import projFit from "@/assets/proj-fitout.jpg";
 import projSite from "@/assets/proj-site.jpg";
+
+const FALLBACK: Record<string, string> = {
+  Residential: projRes,
+  Commercial: projCom,
+  Industrial: projInd,
+  MEP: projMep,
+  "Fit-out": projFit,
+  "Site Facilities": projSite,
+};
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -25,6 +37,7 @@ export const Route = createFileRoute("/projects")({
     ],
     links: [{ rel: "canonical", href: "/projects" }],
   }),
+  loader: () => fetchProjectsFn(),
   component: ProjectsPage,
 });
 
@@ -37,99 +50,6 @@ type Cat =
   | "Fit-out"
   | "Site Facilities";
 
-const PROJECTS: {
-  img: string;
-  title: string;
-  cat: Exclude<Cat, "All">;
-  desc: string;
-  scope: string;
-}[] = [
-  {
-    img: projRes,
-    title: "Residential Tower Project",
-    cat: "Residential",
-    desc: "Multi-storey residential building with full civil and structural scope, MEP works, and finishing.",
-    scope: "Civil, Structural, MEP",
-  },
-  {
-    img: projRes,
-    title: "Villa Development",
-    cat: "Residential",
-    desc: "Premium villa cluster delivered turnkey with landscaping, MEP installations, and interior finishing.",
-    scope: "Turnkey Build",
-  },
-  {
-    img: projCom,
-    title: "Corporate Office Complex",
-    cat: "Commercial",
-    desc: "Glass-facade commercial office building with full MEP scope, fit-out, and building management systems.",
-    scope: "Civil, MEP, Fit-out",
-  },
-  {
-    img: projCom,
-    title: "Retail Plaza",
-    cat: "Commercial",
-    desc: "Mixed-use retail destination with anchor tenants, structured parking, and MEP installations.",
-    scope: "Building Contracting",
-  },
-  {
-    img: projInd,
-    title: "Industrial Warehouse",
-    cat: "Industrial",
-    desc: "Large-span steel-structure warehouse with loading bays, utility connections, and site office setup.",
-    scope: "Structural, Site Facilities",
-  },
-  {
-    img: projInd,
-    title: "Manufacturing Facility",
-    cat: "Industrial",
-    desc: "Process-driven industrial facility with structural steel works, MEP, and safety compliance scope.",
-    scope: "Industrial Contracting",
-  },
-  {
-    img: projMep,
-    title: "HVAC & Plumbing Installation",
-    cat: "MEP",
-    desc: "Full MEP package for a commercial building — HVAC, plumbing, drainage, and low-current systems.",
-    scope: "MEP Contracting",
-  },
-  {
-    img: projMep,
-    title: "Electrical Power Upgrade",
-    cat: "MEP",
-    desc: "Power distribution panel replacement, lighting upgrade, and LV system installation for an operational facility.",
-    scope: "Electrical Works",
-  },
-  {
-    img: projFit,
-    title: "Corporate Office Fit-out",
-    cat: "Fit-out",
-    desc: "Premium interior fit-out with glass partitions, raised flooring, feature lighting, and integrated MEP.",
-    scope: "MEP Fit-out & Interior",
-  },
-  {
-    img: projFit,
-    title: "Retail Showroom Fit-out",
-    cat: "Fit-out",
-    desc: "Retail interior with custom joinery, brand-aligned finishes, feature display systems, and electrical works.",
-    scope: "Interior & MEP",
-  },
-  {
-    img: projSite,
-    title: "Site Office Setup",
-    cat: "Site Facilities",
-    desc: "Turnkey portable office cabin complex with utility connections, furniture, and site welfare facilities.",
-    scope: "Site Office Facilities",
-  },
-  {
-    img: projSite,
-    title: "Temporary Project Facilities",
-    cat: "Site Facilities",
-    desc: "Full site support infrastructure including storage, sanitation, fencing, and utility rental units.",
-    scope: "Rental Services",
-  },
-];
-
 const FILTERS: Cat[] = [
   "All",
   "Residential",
@@ -141,10 +61,12 @@ const FILTERS: Cat[] = [
 ];
 
 function ProjectsPage() {
+  const projects = Route.useLoaderData() as SanityProject[];
   const [active, setActive] = useState<Cat>("All");
+
   const list = useMemo(
-    () => (active === "All" ? PROJECTS : PROJECTS.filter((p) => p.cat === active)),
-    [active],
+    () => (active === "All" ? projects : projects.filter((p) => p.category === active)),
+    [active, projects],
   );
 
   return (
@@ -177,11 +99,11 @@ function ProjectsPage() {
           {/* Grid */}
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {list.map((p, i) => (
-              <Reveal key={`${p.title}-${i}`} delay={(i % 6) * 50}>
+              <Reveal key={p._id} delay={(i % 6) * 50}>
                 <article className="group overflow-hidden rounded-xl bg-surface shadow-card transition-all hover:-translate-y-1 hover:shadow-elevated">
                   <div className="relative aspect-4/3 overflow-hidden">
                     <img
-                      src={p.img}
+                      src={p.imageUrl ?? FALLBACK[p.category] ?? projRes}
                       alt={p.title}
                       width={1024}
                       height={768}
@@ -191,7 +113,7 @@ function ProjectsPage() {
                     <div className="absolute inset-0 bg-linear-to-t from-primary/85 via-primary/10 to-transparent" />
                     <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-2">
                       <span className="inline-block rounded bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
-                        {p.cat}
+                        {p.category}
                       </span>
                       <span className="rounded bg-white/15 px-2.5 py-1 text-[10px] font-medium text-white backdrop-blur">
                         {p.scope}
@@ -200,7 +122,9 @@ function ProjectsPage() {
                   </div>
                   <div className="p-6">
                     <h3 className="text-lg font-semibold">{p.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      {p.description}
+                    </p>
                   </div>
                 </article>
               </Reveal>

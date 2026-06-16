@@ -141,7 +141,7 @@ function ContactPage() {
               <div className="overflow-hidden rounded-xl border border-border">
                 <iframe
                   title="Eastern Legend office location in Fahaheel, Kuwait"
-                  src="https://www.google.com/maps?q=Fahaheel,+Kuwait&output=embed"
+                  src="https://www.google.com/maps?q=29.080019654369558,48.1349583642129&output=embed"
                   width="100%"
                   height="300"
                   loading="lazy"

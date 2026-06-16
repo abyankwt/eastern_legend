@@ -25,6 +25,9 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Vercel build output (generated at deploy time, must not be committed)
+.vercel/output/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
